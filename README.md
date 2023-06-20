@@ -15,7 +15,7 @@ Better Bases comes from merging two old Wulfmarius mods (HomeImprovement and Bet
 
 ### v1.0.0
 * Initial release of BetterBases
-* Updated to work with TLD 2.06
+* Updated to work with TLD 2.16
 
 ### v0.3.0 BETA
 * Added settings to toggle all of the mod's features on or off
