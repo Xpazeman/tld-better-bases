@@ -8,10 +8,23 @@ Mod for The Long Dark that allows players to improve their bases in multiple way
 
 Better Bases comes from merging two old Wulfmarius mods (HomeImprovement and BetterPlacing) with RemoveClutter, in order to have a single, big mod that allows for a lot of base customization.
 
+## Custom definitions to add or modify objects that can be removed
+You can add .json files (properly formatted) in the bb-custom-definitions (this will be created on first run) and the game will read them and apply the definitions to objects so they can be broken down.
+Definitions specified here will overwrite the default ones, so if you want to change the yield for something, the tool that is required or anything else, you can do it.
+
+You can read a detailed tutorial on how to create new item definitions or overwrite existing ones [here](./Tutorial.md)
+
 ## Installation
 * Read the [installation instructions on the modlist](https://xpazeman.com/tld-mod-list/install.html)
 
 ## Changelog
+
+### v1.1.0
+* NEW: Added a system to add custom definitions so new objects can be added to the clutter pool, or modify existing ones.
+* FIX: Fixed an error thrown on quitting
+
+### v1.0.1
+* FIX: Fixed error with not loading removed clutter data properly on some interiors
 
 ### v1.0.0
 * Initial release of BetterBases

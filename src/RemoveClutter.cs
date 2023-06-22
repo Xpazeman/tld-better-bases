@@ -1,8 +1,10 @@
 ﻿using HarmonyLib;
 using Il2Cpp;
 using UnityEngine;
+using System.IO;
 using System.Text.RegularExpressions;
 using MelonLoader.TinyJSON;
+using MelonLoader.Utils;
 
 namespace BetterBases
 {
@@ -25,13 +27,42 @@ namespace BetterBases
 
         internal static void LoadBreakDownDefinitions()
         {
-            string[] defFiles = { "decoration", "exterior", "industrial", "interiors", "kitchen", "tech" };
-
             objList = new List<BreakDownDefinition>();
+
+            /* Custom definitions */ 
+            string customDefsDir = Path.Combine(MelonEnvironment.ModsDirectory, "bb-custom-definitions");
+
+            if (!Directory.Exists(customDefsDir))
+            {
+                Directory.CreateDirectory(customDefsDir);
+            }
+
+            string[] customDefFiles = Directory.GetFiles(customDefsDir, "*.json");
+
+            for (int i = 0; i < customDefFiles.Length; i++)
+            {
+                string customData = File.ReadAllText(customDefFiles[i]);
+                List<BreakDownDefinition> customObjs = null;
+
+                try
+                {
+                    customObjs = JSON.Load(customData).Make<List<BreakDownDefinition>>();
+
+                    objList.AddRange(customObjs);
+
+                    BetterBases.Log("Custom definitions " + Path.GetFileName(customDefFiles[i]) + " loaded.", true);
+                }
+                catch (FormatException e)
+                {
+                    BetterBases.Log("ERROR: " + Path.GetFileName(customDefFiles[i]) + " incorrectly formatted.", true);
+                }
+            }
+
+            /* Integrated Definitions */
+            string[] defFiles = { "decoration", "exterior", "industrial", "interiors", "kitchen", "tech" };
 
             for (int i = 0; i < defFiles.Length; i++)
             {
-                //string data = File.ReadAllText(defFiles[i]);
                 System.IO.StreamReader streamReader = new System.IO.StreamReader(System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream("BetterBases.resources.definitions."+defFiles[i]+".json"));
                 string data = streamReader.ReadToEnd();
                 streamReader.Close();
@@ -50,33 +81,6 @@ namespace BetterBases
                     BetterBases.Log("ERROR: " + Path.GetFileName(defFiles[i]) + " incorrectly formatted.");
                 }
             }
-
-            /*String defsPath = Path.Combine(BetterBases.MOD_ASSETS_PATH, "definitions");
-            string[] defFiles = Directory.GetFiles(defsPath, "*.json");
-
-            if (defFiles.Length > 0)
-            {
-                objList = new List<BreakDownDefinition>();
-
-                for (int i = 0; i < defFiles.Length; i++)
-                {
-                    string data = File.ReadAllText(defFiles[i]);
-                    List<BreakDownDefinition> fileObjs = null;
-
-                    try
-                    {
-                        fileObjs = JSON.Load(data).Make<List<BreakDownDefinition>>();
-
-                        objList.AddRange(fileObjs);
-
-                        BetterBases.Log(Path.GetFileName(defFiles[i]) + " definitions loaded ");
-                    }
-                    catch (FormatException e)
-                    {
-                        BetterBases.Log("ERROR: " + Path.GetFileName(defFiles[i]) + " incorrectly formatted.");
-                    }
-                }
-            }*/
         }
 
         internal static void LoadBreakDownData(string saveName, string sceneSaveName)
@@ -139,6 +143,8 @@ namespace BetterBases
        
             foreach(string bdSaveProxy in loadedList)
             {
+                if (bdSaveProxy == null || bdSaveProxy == "" || bdSaveProxy == "{}") { continue; }
+                
                 ModBreakDownSaveProxy breakDownSaveData = JSON.Load(bdSaveProxy).Make<ModBreakDownSaveProxy>();
                 BreakDown breakDown = BreakDown.FindBreakDownByGuid(breakDownSaveData.m_Guid);
                 

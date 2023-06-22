@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using MelonLoader;
+using MelonLoader.Utils;
 using ModData;
 
 

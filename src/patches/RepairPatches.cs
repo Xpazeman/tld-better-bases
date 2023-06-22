@@ -21,6 +21,8 @@ namespace BetterBases
     {
         public static void Postfix(PlayerManager __instance, Panel_HUD hud)
         {
+            if (GameManager.GetMainCamera() == null) return;
+
             GameObject? interactiveObject = null;
             string hoverText = "";
 
@@ -66,11 +68,9 @@ namespace BetterBases
                 return true;
             }
 
-            BetterBases.Log("Checking if repairable");
             RepairableContainer repairable = interactiveObject.GetComponent<RepairableContainer>();
             if (repairable != null)
             {
-                BetterBases.Log("Is repairable");
                 __result = repairable.ProcessInteraction();
                 return false;
             }

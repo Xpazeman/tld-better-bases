@@ -211,7 +211,7 @@ namespace BetterBases
 
         internal static void PreparePlacableFurniture(GameObject gameObject)
         {
-            if (!gameObject.GetComponentInChildren<Renderer>().isPartOfStaticBatch)
+            if (gameObject.GetComponentInChildren<Renderer>() == null || !gameObject.GetComponentInChildren<Renderer>().isPartOfStaticBatch)
             {
                 return;
             }
@@ -228,6 +228,7 @@ namespace BetterBases
             }
 
             MeshFilter templateMeshFilter = prefab.GetComponentInChildren<MeshFilter>();
+            if (templateMeshFilter == null) { return; }
 
             MeshFilter[] meshFilters = gameObject.GetComponentsInChildren<MeshFilter>();
 
