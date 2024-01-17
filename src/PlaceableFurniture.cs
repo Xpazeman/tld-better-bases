@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using Il2Cpp;
@@ -158,7 +158,7 @@ namespace BetterBases
 
             if (bdComp != null)
             {
-                bdComp.StickSurfaceObjectsToGround();
+                bdComp.StickSurfaceObjectsToGround(false);
             }
             else
             {
@@ -174,7 +174,7 @@ namespace BetterBases
 
                     if (chBreakDown != null)
                     {
-                        chBreakDown.StickSurfaceObjectsToGround();
+                        chBreakDown.StickSurfaceObjectsToGround(false);
                     }
                 }
             }

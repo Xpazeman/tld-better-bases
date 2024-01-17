@@ -31,6 +31,10 @@ namespace BetterBases
 
             repairedContainers.Clear();
             string saveProxyData = BetterBases.dataMngr.Load(sceneSaveName + REPAIRED_CONTAINERS_SUFFIX);
+			if(string.IsNullOrEmpty(saveProxyData))
+			{
+				return;
+			}
 
             RepairedContainers loadedRepairedContainers = DeserializeSaveProxy(saveProxyData);
             if (loadedRepairedContainers == null)
